@@ -4,7 +4,7 @@ const NavBar = () => {
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
             <div className="container">
-                <a href="https:localhost:3000/#" className="navbar-brand">Minhas Finanças</a>
+                <a href="http://localhost:3000" className="navbar-brand">Minhas Finanças</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarResponsive"
                     aria-controls="navbarResponsive"
@@ -14,7 +14,7 @@ const NavBar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav">
-                        <NavBarItem href="#/" title="Home" />
+                        <NavBarItem href="#/home" title="Home" />
                         <NavBarItem href="#/cadastro-usuarios" title="Usuários" />
                         <NavBarItem href="#/" title="Lançamentos" />
                         <NavBarItem href="#/login" title="Login" />
