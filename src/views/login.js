@@ -1,58 +1,57 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom'
 
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
 
-function Login() {
+const Login = (props) => {
 
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [password, setPassword] = useState('');
 
     const entrar = () => {
         console.log('Email ', email);
-        console.log('Senha', senha);
+        console.log('Senha', password);
     }
 
+    const prepareCadastrar = () => props.history.push('/cadastro-usuarios')
+
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
-                    <div className="bs-docs-section">
-                        <Card title="Login">
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="bs-component">
-                                        <form>
-                                            <fieldset>
-                                                <FormGroup label="E-Mail" htmlFor="exampleInputEmail1">
-                                                    <input type="email" className="form-control"
-                                                        value={email}
-                                                        onChange={(e) => setEmail(e.target.value)}
-                                                        id="exampleInputEmail1"
-                                                        placeholder="Digite o Email" />
-                                                </FormGroup>
-                                                <FormGroup label="Senha" htmlFor="exampleInputPassword1">
-                                                    <input type="password" className="form-control" 
-                                                        value={senha}
-                                                        onChange={(e) => setSenha(e.target.value)}
-                                                        id="exampleInputPassword1" 
-                                                        placeholder="Digite a Senha" />
-                                                </FormGroup>
-                                                <div style={{paddingTop: '10px'}}>
-                                                    <button onClick={entrar} className="btn btn-sm btn-success" style={{marginRight: '10px'}}>Entrar</button>
-                                                    <button className="btn btn-sm btn-danger">Cadastrar</button>                                                    
-                                                </div>
-                                            </fieldset>
-                                        </form>
-                                    </div>
+        <div className="row">
+            <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
+                <div className="bs-docs-section">
+                    <Card title="Login">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <div className="bs-component">
+                                    <form>
+                                        <FormGroup label="E-Mail" htmlFor="exampleInputEmail1">
+                                            <input type="email" className="form-control"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                id="exampleInputEmail1"
+                                                placeholder="Digite o Email" />
+                                        </FormGroup>
+                                        <FormGroup label="Senha" htmlFor="exampleInputPassword1">
+                                            <input type="password" className="form-control"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                id="exampleInputPassword1"
+                                                placeholder="Digite a Senha" />
+                                        </FormGroup>
+                                        <div style={{ paddingTop: '10px' }}>
+                                            <button type="button" className="btn btn-sm btn-success" onClick={entrar} style={{ marginRight: '10px' }}>Entrar</button>
+                                            <button type="button" className="btn btn-sm btn-danger" onClick={prepareCadastrar}>Cadastrar</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </Card>
-                    </div>
+                        </div>
+                    </Card>
                 </div>
             </div>
         </div>
     );
 }
 
-export default Login;
+export default withRouter(Login);
