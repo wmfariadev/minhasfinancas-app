@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
@@ -7,11 +8,18 @@ import FormGroup from '../components/form-group'
 const Login = (props) => {
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [senha, setSenha] = useState('');
+    const [mensagemErro, setMensagemErro] = useState('');
 
     const entrar = () => {
-        console.log('Email ', email);
-        console.log('Senha', password);
+        axios.post('http://localhost:8080/api/usuarios/autenticar', {
+            email: email,
+            senha: senha
+        }).then(response => {
+            props.history.push('/home');
+        }).catch(err => {
+            setMensagemErro(err.response.data);
+        })
     }
 
     const prepareCadastrar = () => props.history.push('/cadastro-usuarios')
@@ -20,6 +28,9 @@ const Login = (props) => {
         <div className="row">
             <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
                 <div className="bs-docs-section">
+                    <div className="row">
+                        <span>{mensagemErro}</span>
+                    </div>
                     <Card title="Login">
                         <div className="row">
                             <div className="col-lg-12">
@@ -33,9 +44,9 @@ const Login = (props) => {
                                                 placeholder="Digite o Email" />
                                         </FormGroup>
                                         <FormGroup label="Senha" htmlFor="exampleInputPassword1">
-                                            <input type="password" className="form-control"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
+                                            <input type="senha" className="form-control"
+                                                value={senha}
+                                                onChange={(e) => setSenha(e.target.value)}
                                                 id="exampleInputPassword1"
                                                 placeholder="Digite a Senha" />
                                         </FormGroup>
