@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
+import axios from 'axios';
 
 import './home.css'
 
 const Home = (props) => {
 
     const [saldo, setSaldo] = useState(0);
+    useEffect(() => {
+        let userAccess =JSON.parse(localStorage.getItem("_user"));
+        axios.get(`http://localhost:8080/api/usuarios/${userAccess.id}/saldo`)
+            .then(res => {
+                setSaldo(res.data);
+            })
+            .catch(err => console.error(err))
+    })
 
     return (
         <div className="jumbotron">
@@ -15,8 +24,8 @@ const Home = (props) => {
             <hr className="my-4" />
             <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
             <p className="lead">
-            <a className="btn btn-primary btn-lg" href="/cadastro-usuarios" role="button" style={{marginRight: '10px'}}><i className="fa fa-users"></i>  Cadastrar Usuário</a>
-            <a className="btn btn-danger btn-lg" href="/cadastro-lancamento" role="button"><i className="fa fa-users"></i>  Cadastrar Lançamento</a>
+                <a className="btn btn-primary btn-lg" href="/cadastro-usuarios" role="button" style={{ marginRight: '10px' }}><i className="fa fa-users"></i>  Cadastrar Usuário</a>
+                <a className="btn btn-danger btn-lg" href="/cadastro-lancamento" role="button"><i className="fa fa-users"></i>  Cadastrar Lançamento</a>
             </p>
         </div>
     );

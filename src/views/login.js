@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
 
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
+
+import UsuarioService from '../app/services/usuarioService';
 
 const Login = (props) => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [mensagemErro, setMensagemErro] = useState('');
+    const service = new UsuarioService();
 
     const entrar = () => {
-        axios.post('http://localhost:8080/api/usuarios/autenticar', {
+
+        service.autenticar({
             email: email,
             senha: senha
         }).then(response => {
+            localStorage.setItem("_user", JSON.stringify(response.data))
             props.history.push('/home');
         }).catch(err => {
             setMensagemErro(err.response.data);
@@ -44,7 +48,7 @@ const Login = (props) => {
                                                 placeholder="Digite o Email" />
                                         </FormGroup>
                                         <FormGroup label="Senha" htmlFor="exampleInputPassword1">
-                                            <input type="senha" className="form-control"
+                                            <input type="password" className="form-control"
                                                 value={senha}
                                                 onChange={(e) => setSenha(e.target.value)}
                                                 id="exampleInputPassword1"
