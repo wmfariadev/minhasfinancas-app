@@ -10,6 +10,10 @@ class UsuarioService extends ApiService {
         return this.get(`/api/usuarios/${id}/saldo`)
     }
 
+    cadastrarUsuario(usuario) {
+        return this.post(`/api/usuarios`, usuario)
+    }
+
 }
 
 export default UsuarioService;
