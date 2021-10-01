@@ -5,7 +5,7 @@ import Card from '../components/card'
 import FormGroup from '../components/form-group';
 import UsuarioService from '../app/services/usuarioService';
 
-import { mensagemAlerta, mensagemSucesso, mensagemErro } from '../components/toastr'
+import { mensagemSucesso, mensagemErro } from '../components/toastr'
 
 const CadastroUsuario = (props) => {
 
