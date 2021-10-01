@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom'
-import axios from 'axios';
 
 import './home.css'
+import UsuarioService from '../app/services/usuarioService';
 
 const Home = (props) => {
 
     const [saldo, setSaldo] = useState(0);
+    const service = new UsuarioService();
+
     useEffect(() => {
-        let userAccess =JSON.parse(localStorage.getItem("_user"));
-        axios.get(`http://localhost:8080/api/usuarios/${userAccess.id}/saldo`)
-            .then(res => {
-                setSaldo(res.data);
-            })
-            .catch(err => console.error(err))
+        let userAccess = JSON.parse(localStorage.getItem("_user"));
+
+        service.obterSaldoPorId(userAccess.id).then(res => {
+            setSaldo(res.data);
+        }).catch(err => console.error(err))
     })
 
     return (

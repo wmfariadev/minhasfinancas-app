@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom'
 
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
 
 import UsuarioService from '../app/services/usuarioService';
+import { mensagemErro } from '../components/toastr'
 
 const Login = (props) => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [mensagemErro, setMensagemErro] = useState('');
     const service = new UsuarioService();
 
     const entrar = () => {
@@ -22,7 +22,7 @@ const Login = (props) => {
             localStorage.setItem("_user", JSON.stringify(response.data))
             props.history.push('/home');
         }).catch(err => {
-            setMensagemErro(err.response.data);
+            mensagemErro(err.response.data);
         })
     }
 
@@ -32,9 +32,6 @@ const Login = (props) => {
         <div className="row">
             <div className="col-md-6" style={{ position: 'relative', left: '300px' }}>
                 <div className="bs-docs-section">
-                    <div className="row">
-                        <span>{mensagemErro}</span>
-                    </div>
                     <Card title="Login">
                         <div className="row">
                             <div className="col-lg-12">
