@@ -1,3 +1,5 @@
+import React from 'react'
+import currencyFormat from 'currency-formatter'
 
 const LancamentosTable = (props) => {
 
@@ -7,7 +9,7 @@ const LancamentosTable = (props) => {
         return (
             <tr key={idx} className={color}>
                 <th scope="row">{lancamento.descricao}</th>
-                <td>R$ {lancamento.valor}</td>
+                <td>{currencyFormat.format(lancamento.valor, {code: 'BRL'})}</td>
                 <td>{lancamento.tipo}</td>
                 <td>{lancamento.dataCadastro}</td>
                 <td>{lancamento.status}</td>

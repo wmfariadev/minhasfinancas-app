@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom'
 
-import { mensagemErro } from '../../components/toastr'
 import Card from '../../components/card';
 import FormGroup from '../../components/form-group';
 import SelectMenu from '../../components/selectMenu';
 import LancamentosTable from './lancamentosTable';
 import LancamentoService from '../../app/services/lancamentoService';
+
+import * as messages from '../../components/toastr'
 
 const ConsultaLancamento = () => {
     const service = new LancamentoService();
@@ -31,10 +32,19 @@ const ConsultaLancamento = () => {
 
     const buscarLancamentos = () => {
 
+        if (!ano) {
+            messages.mensagemErro('Ano não informado!');
+            return false;
+        }
+
         service.buscarLancamentos(lancamentoFiltro).then(response => {
             setRow(response.data);
+
+            if (response.data.length === 0) {
+                messages.mensagemAlerta('Nenhum resultado encontrado!')
+            }         
         }).catch(err => {
-            mensagemErro(err.response.data);
+            messages.mensagemErro(err.response.data);
         })
     }
 
