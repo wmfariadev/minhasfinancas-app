@@ -8,16 +8,20 @@ import LancamentosTable from './lancamentosTable';
 import LancamentoService from '../../app/services/lancamentoService';
 
 import * as messages from '../../components/toastr'
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
 
 const ConsultaLancamento = () => {
     const service = new LancamentoService();
     let userAccess = JSON.parse(localStorage.getItem("_user"));
-    
+
     const [descricao, setDescricao] = useState('');
     const [mes, setMes] = useState('');
     const [ano, setAno] = useState('');
     const [tipo, setTipo] = useState('');
     const [rows, setRow] = useState([]);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [lancamentoDeletar, setLancamentoDeletar] = useState({});
 
     const meses = service.obterListaMeses();
     const tipos = service.obterTipo();
@@ -42,7 +46,30 @@ const ConsultaLancamento = () => {
 
             if (response.data.length === 0) {
                 messages.mensagemAlerta('Nenhum resultado encontrado!')
-            }         
+            }
+        }).catch(err => {
+            messages.mensagemErro(err.response.data);
+        })
+    }
+
+    const editar = (id) => {
+        console.log(`Editar ${id}`);
+    }
+
+    const abrirConfirmacao = (lancamento) => {
+        setShowConfirmDialog(true);
+        setLancamentoDeletar(lancamento);
+    }
+
+    const deletar = () => {
+        // TODO: validar a remoção do item do array
+        service.deletarLancamento(lancamentoDeletar.id).then(response => {
+            // const lancamentos = rows;
+            // const index = lancamentos.indexOf(lancamento);
+            // lancamentos.splice(index, 1);
+            // setRow(lancamentos);
+            buscarLancamentos();
+            messages.mensagemSucesso('Lançamento deletado com sucesso!');
         }).catch(err => {
             messages.mensagemErro(err.response.data);
         })
@@ -94,10 +121,22 @@ const ConsultaLancamento = () => {
                 <div className="col-lg-12">
                     <div className="page-header">
                         <div className="bs-component">
-                            <LancamentosTable lancamentos={rows}></LancamentosTable>
+                            <LancamentosTable lancamentos={rows} deleteAction={abrirConfirmacao} editAction={editar}></LancamentosTable>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <ConfirmDialog header="Confirmação de exclusão" 
+                    visible={showConfirmDialog} style={{ width: '50vw' }} 
+                    onHide={() => setShowConfirmDialog(false)} 
+                    modal={true}
+                    icon={'pi pi-info-circle'}
+                    acceptClassName={'p-button-danger'}
+                    acceptLabel="Sim"
+                    rejectLabel="Não"
+                    accept={deletar}
+                    message="Confirma a exclusão deste registro?" />
             </div>
         </Card >
     );

@@ -14,8 +14,17 @@ const LancamentosTable = (props) => {
                 <td>{lancamento.dataCadastro}</td>
                 <td>{lancamento.status}</td>
                 <td>
-                    <button type="button" className="btn btn-sm btn-primary" style={{marginRight: '10px'}}>Editar</button>
-                    <button type="button" className="btn btn-sm btn-danger">Deletar</button>
+                    <button type="button" 
+                        className="btn btn-sm btn-primary" 
+                        onClick={e => props.editAction(lancamento.id)} 
+                        style={{marginRight: '10px'}}>
+                            Editar
+                    </button>
+                    <button type="button" 
+                        className="btn btn-sm btn-danger"
+                        onClick={e => props.deleteAction(lancamento)}>
+                            Deletar
+                    </button>
                 </td>
             </tr>
         );
